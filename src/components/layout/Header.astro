@@ -1,0 +1,149 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/brand/monsoon-logo.jpg';
+import Container from './Container.astro';
+import Button from '../ui/Button.astro';
+import { business, primaryNav } from '../../data/business.ts';
+
+/**
+ * Site header.
+ *
+ * `transparent` — set true only on pages with a full-bleed hero directly
+ * beneath the header (i.e. the homepage). Inner pages without that hero
+ * should omit it, so the header renders solid from the first paint.
+ *
+ * Includes:
+ * - Desktop nav + persistent Contact CTA
+ * - Mobile hamburger + slide-in nav panel
+ * - A persistent bottom Call/WhatsApp bar on mobile, independent of the
+ *   hamburger panel's open/closed state, so contact is never more than
+ *   one tap away regardless of menu state (locked requirement).
+ */
+interface Props {
+	transparent?: boolean;
+}
+
+const { transparent = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<header
+	data-site-header
+	data-transparent-header={transparent ? true : undefined}
+	class="fixed inset-x-0 top-0 z-50"
+>
+	<Container class="flex items-center justify-between py-4">
+		<a
+			href="/"
+			class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-cream p-1.5 shadow-sm"
+			aria-label={`${business.name} — home`}
+		>
+			<Image src={logo} alt={business.name} width={140} height={140} class="h-full w-full object-contain" />
+		</a>
+
+		<nav aria-label="Primary" class="hidden items-center gap-8 md:flex">
+			{
+				primaryNav.map((item) => (
+					<a
+						href={item.href}
+						class="font-body text-sm tracking-wide transition-opacity hover:opacity-70 aria-[current=page]:underline aria-[current=page]:underline-offset-4"
+						aria-current={currentPath === item.href ? 'page' : undefined}
+					>
+						{item.label}
+					</a>
+				))
+			}
+		</nav>
+
+		<div class="hidden md:block">
+			<Button variant="primary" href="/contact">Contact</Button>
+		</div>
+
+		<button
+			type="button"
+			data-nav-toggle
+			aria-expanded="false"
+			aria-controls="mobile-nav-panel"
+			aria-label="Open menu"
+			class="flex h-10 w-10 items-center justify-center md:hidden"
+		>
+			<span class="sr-only">Open menu</span>
+			<svg width="22" height="16" viewBox="0 0 22 16" fill="none" aria-hidden="true">
+				<path d="M0 1h22M0 8h22M0 15h22" stroke="currentColor" stroke-width="1.5" />
+			</svg>
+		</button>
+	</Container>
+
+	<!-- Mobile slide-in nav panel -->
+	<div
+		id="mobile-nav-panel"
+		data-nav-panel
+		data-open="false"
+		class="fixed inset-y-0 right-0 z-50 flex w-full max-w-xs flex-col gap-8 bg-cream px-8 py-10 text-iron shadow-xl md:hidden"
+	>
+		<div class="flex items-center justify-between">
+			<span class="font-display text-lg">{business.name}</span>
+			<button type="button" data-nav-toggle aria-label="Close menu" class="h-10 w-10">
+				<span class="sr-only">Close menu</span>
+				<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+					<path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.5" />
+				</svg>
+			</button>
+		</div>
+
+		<nav aria-label="Mobile primary" class="flex flex-col gap-6">
+			{
+				primaryNav.map((item) => (
+					<a href={item.href} class="font-display text-2xl">
+						{item.label}
+					</a>
+				))
+			}
+		</nav>
+
+		<div class="mt-auto flex flex-col gap-3">
+			<Button variant="primary" href={business.phone ? `tel:${business.phone}` : null}>
+				Call
+			</Button>
+			<Button
+				variant="primary"
+				class="bg-iron hover:bg-iron"
+				href={business.whatsapp ? `https://wa.me/${business.whatsapp}` : null}
+				external
+			>
+				WhatsApp
+			</Button>
+		</div>
+	</div>
+
+	<!-- Backdrop for mobile panel; visibility toggled by mobile-nav.js -->
+	<div data-nav-backdrop aria-hidden="true" class="fixed inset-0 z-40 hidden bg-iron/40 md:hidden">
+	</div>
+</header>
+
+<!-- Persistent mobile contact affordance — independent of the hamburger
+     panel, always visible, never obstructs content (thin fixed bar). -->
+<div
+	data-mobile-contact-bar
+	class="fixed inset-x-0 bottom-0 z-40 flex border-t border-iron/10 bg-cream md:hidden"
+>
+	<Button
+		variant="text"
+		class="flex-1 justify-center border-none py-3 text-center"
+		href={business.phone ? `tel:${business.phone}` : null}
+	>
+		Call
+	</Button>
+	<div class="w-px bg-iron/10" aria-hidden="true"></div>
+	<Button
+		variant="text"
+		class="flex-1 justify-center border-none py-3 text-center"
+		href={business.whatsapp ? `https://wa.me/${business.whatsapp}` : null}
+		external
+	>
+		WhatsApp
+	</Button>
+</div>
+
+<script src="../../scripts/header-scroll.js"></script>
+<script src="../../scripts/mobile-nav.js"></script>

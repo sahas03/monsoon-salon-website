@@ -1,0 +1,72 @@
+---
+/**
+ * Button primitive.
+ *
+ * Two variants only, matching the locked design system:
+ * - "primary": solid fill, used sparingly at genuine conversion moments
+ *   (hero CTA, final contact CTA). Never more than one or two per section.
+ * - "text": quiet underline/arrow link, used for lower-commitment actions
+ *   (per-category "Enquire about Hair →", "View Full Gallery →").
+ *
+ * Renders as <a> when `href` is provided, otherwise a <button>.
+ * Handles a `disabled`-like "pending" state for CTAs whose destination
+ * depends on unconfirmed business data (e.g. phone/WhatsApp not yet
+ * confirmed) — see business.ts. This must never silently link to a
+ * fabricated number; it renders as visibly inactive instead.
+ */
+interface Props {
+	variant?: 'primary' | 'text';
+	href?: string | null;
+	class?: string;
+	external?: boolean;
+	ariaLabel?: string;
+}
+
+const {
+	variant = 'primary',
+	href = null,
+	class: className = '',
+	external = false,
+	ariaLabel,
+} = Astro.props;
+
+const isPending = href === null;
+
+const base =
+	'inline-flex items-center gap-2 font-body transition-colors duration-200 focus-visible:outline-2';
+
+const variants = {
+	primary:
+		'rounded-sm bg-green-primary px-6 py-3 text-cream text-sm tracking-wide hover:bg-green-deep',
+	text: 'text-iron text-sm border-b border-transparent hover:border-iron pb-0.5',
+};
+
+const pendingStyles = 'opacity-50 cursor-not-allowed pointer-events-none';
+
+const classes = [
+	base,
+	variants[variant],
+	isPending ? pendingStyles : '',
+	className,
+]
+	.filter(Boolean)
+	.join(' ');
+---
+
+{
+	isPending ? (
+		<span class={classes} aria-disabled="true" title="Pending confirmation from the salon">
+			<slot />
+		</span>
+	) : (
+		<a
+			href={href}
+			class={classes}
+			aria-label={ariaLabel}
+			target={external ? '_blank' : undefined}
+			rel={external ? 'noopener noreferrer' : undefined}
+		>
+			<slot />
+		</a>
+	)
+}

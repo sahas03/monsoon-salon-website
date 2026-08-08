@@ -1,0 +1,154 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   DESIGN TOKENS
+   Sampled from the actual Monsoon Salon interior photography (styling-chair
+   leather, brass fixtures, wood tones, wall neutrals). Provisional — verify
+   against full-resolution source images before treating as final.
+   ========================================================================== */
+@theme {
+	/* Color system -------------------------------------------------------- */
+	--color-cream: #f6f1e7; /* dominant background */
+	--color-cream-deep: #ede6d6; /* "quiet zone" — Trust / Brand Statement */
+	--color-green-primary: #2b4736; /* primary accent + CTA fill */
+	--color-green-deep: #1f3527; /* hover/pressed state for green */
+	--color-brass: #a9772f; /* restrained secondary accent */
+	--color-iron: #211d18; /* structural black / body text / arch outline */
+
+	/* Typography — provisional candidates, swappable via CSS variables below */
+	--font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+	--font-body: 'General Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+	/*
+	 * Spacing and breakpoints intentionally use Tailwind's default scales:
+	 * the default 4px-based spacing scale and the default sm/md/lg/xl
+	 * breakpoints (640 / 768 / 1024 / 1280) already match the spacing
+	 * scale and mobile(<768) / tablet(768–1023) / desktop(1024+) system
+	 * defined in the design-system plan, so nothing is overridden here.
+	 */
+
+	/* Named container width for the "contained" section pattern */
+	--container-content: 80rem; /* 1280px */
+	--container-narrow: 42rem; /* ~672px — Brand Statement measure */
+}
+
+/* ==========================================================================
+   BASE LAYER
+   ========================================================================== */
+@layer base {
+	html {
+		background-color: var(--color-cream);
+		color: var(--color-iron);
+		font-family: var(--font-body);
+		scroll-behavior: smooth;
+	}
+
+	body {
+		font-family: var(--font-body);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		font-family: var(--font-display);
+	}
+
+	/* Respect reduced-motion: kill smooth scrolling and let the
+	   reveal script fall back to an instant, fully-visible state. */
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+
+		*,
+		*::before,
+		*::after {
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			scroll-behavior: auto !important;
+		}
+	}
+
+	/* Visible, on-brand focus states — never remove focus outlines,
+	   only restyle them to match the design system. */
+	:focus-visible {
+		outline: 2px solid var(--color-green-primary);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	::selection {
+		background-color: var(--color-green-primary);
+		color: var(--color-cream);
+	}
+}
+
+/* ==========================================================================
+   MOTION FOUNDATION
+   Scroll-reveal utility. Elements start hidden/offset only once JS has
+   confirmed it's safe to animate; see src/scripts/reveal.js. If JS never
+   runs (or reduced-motion is set), the .js-reveal-ready fallback below
+   ensures content is never trapped invisible.
+   ========================================================================== */
+@layer components {
+	[data-reveal] {
+		opacity: 0;
+		transform: translateY(1rem);
+		transition:
+			opacity 0.6s ease,
+			transform 0.6s ease;
+	}
+
+	[data-reveal].is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* No-JS / pre-hydration safety net: content must never be permanently
+	   hidden if the reveal script fails to load. */
+	html:not(.js-reveal-ready) [data-reveal] {
+		opacity: 1;
+		transform: none;
+	}
+
+	/* ------------------------------------------------------------------
+	   Header scroll-transparency behavior. Toggled by header-scroll.js
+	   via a plain `.is-scrolled` class — kept in CSS rather than as
+	   conditionally-rendered Tailwind classes, since the state is driven
+	   by scroll position at runtime, not by an Astro prop at build time.
+	   ------------------------------------------------------------------ */
+	[data-site-header] {
+		background-color: var(--color-cream);
+		color: var(--color-iron);
+		transition:
+			background-color 0.3s ease,
+			color 0.3s ease,
+			border-color 0.3s ease;
+		border-bottom: 1px solid transparent;
+	}
+
+	[data-site-header][data-transparent-header]:not(.is-scrolled) {
+		background-color: transparent;
+		color: var(--color-cream);
+		border-bottom-color: transparent;
+	}
+
+	[data-site-header].is-scrolled {
+		border-bottom-color: color-mix(in srgb, var(--color-iron) 10%, transparent);
+	}
+
+	/* ------------------------------------------------------------------
+	   Mobile nav panel — open/closed state driven by mobile-nav.js via
+	   the data-open attribute.
+	   ------------------------------------------------------------------ */
+	[data-nav-panel] {
+		transform: translateX(100%);
+		transition: transform 0.3s ease;
+	}
+
+	[data-nav-panel][data-open='true'] {
+		transform: translateX(0);
+	}
+}

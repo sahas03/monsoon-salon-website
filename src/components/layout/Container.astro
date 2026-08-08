@@ -1,0 +1,32 @@
+---
+/**
+ * Container primitive — implements the three width patterns defined in the
+ * design system:
+ * - "default": standard contained width (~1280px), used for most sections.
+ * - "narrow": the Brand Statement's pull-quote measure (~672px).
+ * - "full": no max-width — used inside full-bleed sections (Hero, Space/
+ *   Atmosphere) when a piece of content within them still needs to align
+ *   to the standard grid (e.g. hero text block).
+ */
+interface Props {
+	size?: 'default' | 'narrow' | 'full';
+	class?: string;
+	as?: keyof HTMLElementTagNameMap;
+}
+
+const { size = 'default', class: className = '', as: Tag = 'div' } = Astro.props;
+
+const widths = {
+	default: 'max-w-(--container-content)',
+	narrow: 'max-w-(--container-narrow)',
+	full: 'max-w-none',
+};
+
+const classes = ['mx-auto w-full px-6 sm:px-8 lg:px-12', widths[size], className]
+	.filter(Boolean)
+	.join(' ');
+---
+
+<Tag class={classes}>
+	<slot />
+</Tag>

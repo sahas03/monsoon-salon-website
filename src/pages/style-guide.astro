@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import Button from '../components/ui/Button.astro';
+
+/**
+ * Internal design-system preview — NOT a site page in the final IA.
+ * Exists purely so the design tokens/primitives can be reviewed visually
+ * before Stage 3 builds real homepage content on top of them.
+ */
+const swatches = [
+	{ name: 'cream', var: '--color-cream', textOn: 'text-iron' },
+	{ name: 'cream-deep', var: '--color-cream-deep', textOn: 'text-iron' },
+	{ name: 'green-primary', var: '--color-green-primary', textOn: 'text-cream' },
+	{ name: 'green-deep', var: '--color-green-deep', textOn: 'text-cream' },
+	{ name: 'brass', var: '--color-brass', textOn: 'text-cream' },
+	{ name: 'iron', var: '--color-iron', textOn: 'text-cream' },
+];
+---
+
+<BaseLayout title="Style Guide">
+	<Container class="flex flex-col gap-16 py-16">
+		<header data-reveal>
+			<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Internal only</p>
+			<h1 class="mt-2 font-display text-4xl">Design system preview</h1>
+			<p class="mt-2 max-w-lg font-body text-sm text-iron/70">
+				A working reference for the tokens and primitives established in Stage 2. This route is
+				not part of the public site IA.
+			</p>
+		</header>
+
+		<section data-reveal class="flex flex-col gap-4">
+			<h2 class="font-display text-xl">Color tokens</h2>
+			<div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
+				{
+					swatches.map((s) => (
+						<div
+							class={`flex h-24 flex-col justify-end rounded-sm p-3 text-xs ${s.textOn}`}
+							style={`background-color: var(${s.var})`}
+						>
+							{s.name}
+						</div>
+					))
+				}
+			</div>
+		</section>
+
+		<section data-reveal class="flex flex-col gap-4">
+			<h2 class="font-display text-xl">Typography</h2>
+			<p class="font-display text-5xl">Display / Fraunces</p>
+			<p class="font-display text-2xl">Section heading</p>
+			<p class="font-body text-sm tracking-[0.15em] uppercase">Label / subheading</p>
+			<p class="max-w-prose font-body text-base">
+				Body copy — General Sans is the provisional candidate, currently rendering as Inter until
+				the real typeface is loaded and confirmed. This measure and size should stay comfortably
+				legible at typical reading distance.
+			</p>
+			<a href="#" class="font-body text-sm">Navigation label</a>
+		</section>
+
+		<section data-reveal class="flex flex-col gap-4">
+			<h2 class="font-display text-xl">Buttons</h2>
+			<div class="flex flex-wrap items-center gap-6">
+				<Button variant="primary" href="/contact">Primary — Contact</Button>
+				<Button variant="text" href="/gallery">View Full Gallery →</Button>
+				<Button variant="primary" href={null}>Primary — pending data</Button>
+			</div>
+			<p class="max-w-md font-body text-xs text-iron/60">
+				The third button demonstrates the "pending confirmation" state — it renders visibly
+				inactive rather than linking to a fabricated phone number or address.
+			</p>
+		</section>
+
+		<section data-reveal class="flex flex-col gap-4">
+			<h2 class="font-display text-xl">Container widths</h2>
+			<div class="border border-iron/20 py-2 text-center text-xs">default (max-w-(--container-content))</div>
+			<Container size="narrow" class="border border-iron/20 py-2 text-center text-xs">
+				narrow (max-w-(--container-narrow))
+			</Container>
+		</section>
+	</Container>
+</BaseLayout>
