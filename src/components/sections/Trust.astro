@@ -1,0 +1,24 @@
+---
+import Container from '../layout/Container.astro';
+import { business } from '../../data/business.ts';
+
+/**
+ * Trust — deliberately quiet. Names only, even visual weight, no logos
+ * (avoids implying formal co-branding beyond "these products are used
+ * in-salon"), no badges, no rating claims (only 1 public review exists,
+ * per research — not something to lean on here).
+ */
+---
+
+<section class="bg-cream-deep py-16 sm:py-20">
+	<Container size="narrow" class="text-center" data-reveal>
+		<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Professional products used in-salon</p>
+		<ul class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+			{
+				business.productPartners.map((brand) => (
+					<li class="font-display text-lg text-iron sm:text-xl">{brand}</li>
+				))
+			}
+		</ul>
+	</Container>
+</section>

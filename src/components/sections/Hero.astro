@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../../assets/interior/main-stations.webp';
+import Button from '../ui/Button.astro';
+import { business } from '../../data/business.ts';
+
+/**
+ * Hero — the single most important section on the page.
+ *
+ * The photograph does the work; text is confined to the bottom-third via
+ * a gradient so the image itself stays the dominant element. No added
+ * graphic arch here — the real arched mirror frames already visible in
+ * the photograph are the motif's introduction; nothing is layered on top.
+ */
+---
+
+<section class="relative flex h-[100svh] min-h-[560px] w-full items-end overflow-hidden">
+	<Image
+		src={heroImage}
+		alt="The main styling stations at Monsoon Salon, with arched mirror frames and green upholstered chairs"
+		width={1360}
+		height={1020}
+		class="absolute inset-0 h-full w-full object-cover"
+		loading="eager"
+		fetchpriority="high"
+	/>
+
+	<!-- Gradient confined to the bottom third only, so the photograph stays visible. -->
+	<div
+		class="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-iron/80 via-iron/20 to-transparent"
+		aria-hidden="true"
+	>
+	</div>
+
+	<div class="relative z-10 w-full pb-16 sm:pb-20 md:pb-24">
+		<div class="mx-auto w-full max-w-(--container-content) px-6 sm:px-8 lg:px-12">
+			<div class="max-w-md text-cream" data-reveal>
+				<h1 class="font-display text-4xl sm:text-5xl md:text-6xl">{business.name}</h1>
+				<p class="mt-3 font-body text-sm tracking-wide sm:text-base">
+					{business.location} · {business.serviceCategories.join(' / ')}
+				</p>
+
+				<div class="mt-8 flex gap-3 sm:gap-4">
+					<Button
+						variant="primary"
+						href={business.phone ? `tel:${business.phone}` : null}
+						class="flex-1 justify-center sm:flex-none"
+					>
+						Call
+					</Button>
+					<Button
+						variant="primary"
+						class="flex-1 justify-center bg-iron hover:bg-iron/90 sm:flex-none"
+						href={business.whatsapp ? `https://wa.me/${business.whatsapp}` : null}
+						external
+					>
+						WhatsApp
+					</Button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

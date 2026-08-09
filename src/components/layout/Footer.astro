@@ -1,0 +1,62 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/brand/monsoon-logo.jpg';
+import Container from './Container.astro';
+import { business, primaryNav } from '../../data/business.ts';
+
+/**
+ * Footer — restrained by design: logo, nav repeat, contact info
+ * (conditionally rendered per confirmed field), one social link, and a
+ * copyright line. No newsletter, no sitemap sprawl, no repeated CTA
+ * buttons.
+ *
+ * Includes the second (and final) sanctioned small use of the arch
+ * motif on the homepage — a subtle accent beside the logo, per the
+ * arch-system rules established in the design brief.
+ */
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-iron/10 bg-cream-deep">
+	<Container class="grid gap-10 py-14 sm:grid-cols-3">
+		<div class="flex flex-col gap-4">
+			<div class="flex items-center gap-3">
+				<div class="arch-frame flex h-9 w-9 items-center justify-center bg-cream p-1">
+					<Image src={logo} alt={business.name} width={80} height={80} class="h-full w-full object-contain" />
+				</div>
+				<span class="font-display text-lg">{business.name}</span>
+			</div>
+			<p class="max-w-xs font-body text-sm text-iron/60">{business.location}</p>
+		</div>
+
+		<nav aria-label="Footer" class="flex flex-col gap-2">
+			{
+				primaryNav.map((item) => (
+					<a href={item.href} class="font-body text-sm text-iron/80 hover:text-iron">
+						{item.label}
+					</a>
+				))
+			}
+		</nav>
+
+		<div class="flex flex-col gap-2 font-body text-sm text-iron/80">
+			{business.phone && <a href={`tel:${business.phone}`}>{business.phone}</a>}
+			{business.email && <a href={`mailto:${business.email}`}>{business.email}</a>}
+			{business.address && <p class="text-iron/60">{business.address}</p>}
+			{business.hours && <p class="text-iron/60">{business.hours}</p>}
+			{
+				business.instagramUrl && (
+					<a href={business.instagramUrl} target="_blank" rel="noopener noreferrer">
+						Instagram
+					</a>
+				)
+			}
+		</div>
+	</Container>
+
+	<div class="border-t border-iron/10 py-6">
+		<Container>
+			<p class="font-body text-xs text-iron/50">© {year} {business.name}. All rights reserved.</p>
+		</Container>
+	</div>
+</footer>

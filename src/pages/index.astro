@@ -1,16 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Services from '../components/sections/Services.astro';
+import Space from '../components/sections/Space.astro';
+import GalleryPreview from '../components/sections/GalleryPreview.astro';
+import Trust from '../components/sections/Trust.astro';
+import BrandStatement from '../components/sections/BrandStatement.astro';
+import FinalCTA from '../components/sections/FinalCTA.astro';
+
+const description =
+	"Monsoon Salon in Kokapet, Hyderabad — hair, skin, makeup, and nail services in a considered, design-led space.";
 ---
 
-<BaseLayout title="Monsoon Salon" transparentHeader={false}>
-	<section class="flex min-h-[70vh] items-center justify-center px-6 text-center">
-		<div>
-			<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Stage 2 — foundation build</p>
-			<h1 class="mt-4 font-display text-3xl text-iron">Homepage sections are built in Stage 3</h1>
-			<p class="mx-auto mt-4 max-w-md font-body text-sm text-iron/70">
-				This route currently exists only to verify the global design system renders correctly.
-				See <a href="/style-guide" class="underline">/style-guide</a> for a token/component preview.
-			</p>
-		</div>
-	</section>
+<BaseLayout title="Monsoon Salon" description={description} transparentHeader={true}>
+	<Hero />
+	<Services />
+	<Space />
+	<GalleryPreview />
+	<Trust />
+	<BrandStatement />
+	<FinalCTA />
 </BaseLayout>

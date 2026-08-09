@@ -151,4 +151,29 @@
 	[data-nav-panel][data-open='true'] {
 		transform: translateX(0);
 	}
+
+	/* ------------------------------------------------------------------
+	   Arch motif — the site's one signature structural shape, drawn from
+	   the real arched mirror frames in the salon photography. Deliberately
+	   restrained: only two sanctioned homepage uses (Space/Atmosphere
+	   panel, Footer detail). Do not apply this class elsewhere without
+	   revisiting the arch-system rules in the design brief.
+	   ------------------------------------------------------------------ */
+	.arch-frame {
+		border-radius: 50% 50% 0 0 / 12% 12% 0 0;
+		overflow: hidden;
+	}
+
+	/* ------------------------------------------------------------------
+	   Lightbox — shown/hidden via [hidden] attribute toggled by
+	   lightbox.js. Fade only, per the locked motion philosophy.
+	   ------------------------------------------------------------------ */
+	[data-lightbox] {
+		opacity: 0;
+		transition: opacity 0.25s ease;
+	}
+
+	[data-lightbox][data-open='true'] {
+		opacity: 1;
+	}
 }

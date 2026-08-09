@@ -1,0 +1,22 @@
+---
+import Container from '../layout/Container.astro';
+import { business } from '../../data/business.ts';
+
+/**
+ * Brand Statement — one quiet editorial pause, intentionally arch-free
+ * and image-free (see design brief). Copy is restricted to what's
+ * actually confirmed: the location and the four service categories from
+ * the salon's own signage. No claims about independence, history, or
+ * scale — the franchise-affiliation question remains unresolved, so the
+ * copy simply doesn't touch it in either direction.
+ */
+---
+
+<section class="bg-cream-deep py-20 sm:py-28">
+	<Container size="narrow" class="text-center" data-reveal>
+		<p class="font-display text-2xl leading-relaxed text-iron sm:text-3xl">
+			{business.name} is built around precise work, a considered space, and services that cover
+			hair, skin, makeup, and nails — in {business.location}.
+		</p>
+	</Container>
+</section>

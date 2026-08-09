@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import spaceImage from '../../assets/interior/partition-screens.webp';
+
+/**
+ * Space / Atmosphere — a deliberate visual pause between Services and
+ * Gallery. This is one of exactly two sanctioned graphic uses of the
+ * arch motif on the homepage (see .arch-frame in global.css): the
+ * image sits inside an arch-topped panel rather than a plain rectangle,
+ * echoing the real mirror frames without being applied everywhere.
+ */
+---
+
+<section class="bg-cream py-20 sm:py-28" data-reveal>
+	<div class="mx-auto w-full max-w-5xl px-6 sm:px-8">
+		<div class="arch-frame h-[70vh] max-h-[720px] min-h-[420px] w-full">
+			<Image
+				src={spaceImage}
+				alt="Interior view of Monsoon Salon, showing the black iron partition screens and styling area"
+				width={574}
+				height={1020}
+				class="h-full w-full object-cover"
+			/>
+		</div>
+	</div>
+</section>

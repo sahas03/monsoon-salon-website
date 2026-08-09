@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import hairImage from '../../assets/hair/hair-02.webp';
+import nailsImage from '../../assets/nails/nails-process.webp';
+import skinImage from '../../assets/skin/treatment-room.webp';
+import bridalImage from '../../assets/bridal/bridal-cropped.png';
+import Button from '../ui/Button.astro';
+import Container from '../layout/Container.astro';
+
+/**
+ * Services — deliberately asymmetric, not four uniform cards.
+ *
+ * Hair and Nail get large, full-featured blocks (the strongest asset
+ * categories); Skin and Makeup are paired into a smaller, honest
+ * treatment reflecting the current photography depth, per the approved
+ * "don't force artificial parity across categories" decision.
+ *
+ * Copy: one short line per category, grounded only in the confirmed/
+ * evidenced service taxonomy established earlier (not invented lists).
+ */
+---
+
+<section class="bg-cream py-20 sm:py-28">
+	<Container class="flex flex-col gap-16 sm:gap-20">
+		<header data-reveal class="max-w-xl">
+			<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">What we do</p>
+			<h2 class="mt-3 font-display text-3xl sm:text-4xl">Hair, skin, makeup, and nails</h2>
+		</header>
+
+		<!-- Hair — large, image-led, ~60/40 -->
+		<div data-reveal class="grid items-center gap-8 md:grid-cols-5 md:gap-12">
+			<div class="md:col-span-3">
+				<Image
+					src={hairImage}
+					alt="Styled hair colour work at Monsoon Salon"
+					width={765}
+					height={1020}
+					class="aspect-4/5 w-full object-cover md:aspect-3/4"
+				/>
+			</div>
+			<div class="md:col-span-2">
+				<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Hair</p>
+				<p class="mt-3 max-w-sm font-body text-base text-iron/80">
+					Cutting, styling, and colour — including Kérastase-backed hair spa and scalp treatments.
+				</p>
+				<Button variant="text" href="/services" class="mt-6">Enquire about Hair →</Button>
+			</div>
+		</div>
+
+		<!-- Nail — reversed composition -->
+		<div data-reveal class="grid items-center gap-8 md:grid-cols-5 md:gap-12">
+			<div class="order-2 md:order-1 md:col-span-2">
+				<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Nail</p>
+				<p class="mt-3 max-w-sm font-body text-base text-iron/80">
+					Manicure, pedicure, and nail art — from clean and classic to detailed handwork.
+				</p>
+				<Button variant="text" href="/services" class="mt-6">Enquire about Nail →</Button>
+			</div>
+			<div class="order-1 md:order-2 md:col-span-3">
+				<Image
+					src={nailsImage}
+					alt="A nail service being performed at Monsoon Salon"
+					width={574}
+					height={1020}
+					class="aspect-4/5 w-full object-cover md:aspect-3/4"
+				/>
+			</div>
+		</div>
+
+		<!-- Skin + Makeup — paired, smaller, honest about current asset depth -->
+		<div data-reveal class="grid gap-8 sm:grid-cols-2 sm:gap-6">
+			<div>
+				<Image
+					src={skinImage}
+					alt="A skin treatment room at Monsoon Salon"
+					width={574}
+					height={1020}
+					class="aspect-3/4 w-full object-cover"
+				/>
+				<p class="mt-4 font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Skin</p>
+				<p class="mt-2 max-w-xs font-body text-sm text-iron/80">Facials and skin treatments, including Hydrafacial.</p>
+				<Button variant="text" href="/services" class="mt-4">Enquire about Skin →</Button>
+			</div>
+			<div>
+				<Image
+					src={bridalImage}
+					alt="Bridal styling work at Monsoon Salon"
+					width={640}
+					height={521}
+					class="aspect-3/4 w-full object-cover"
+				/>
+				<p class="mt-4 font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Makeup</p>
+				<p class="mt-2 max-w-xs font-body text-sm text-iron/80">Bridal and special-occasion makeup.</p>
+				<Button variant="text" href="/services" class="mt-4">Enquire about Makeup →</Button>
+			</div>
+		</div>
+	</Container>
+</section>
