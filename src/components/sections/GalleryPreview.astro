@@ -3,31 +3,35 @@ import { Image, getImage } from 'astro:assets';
 import Container from '../layout/Container.astro';
 import Button from '../ui/Button.astro';
 
-import nailsProcess from '../../assets/nails/nails-process.webp';
 import hair01 from '../../assets/hair/hair-01.webp';
-import hair02 from '../../assets/hair/hair-02.webp';
 import hair03 from '../../assets/hair/hair-03.webp';
 import nails01 from '../../assets/nails/nails-01.webp';
 import nails02 from '../../assets/nails/nails-02.webp';
-import bridal from '../../assets/bridal/bridal-cropped.png';
+import nails03 from '../../assets/nails/nails-03.png';
 import washArea from '../../assets/interior/wash-area.webp';
+import secondaryStation from '../../assets/interior/secondary-station.webp';
 
 /**
  * Gallery preview — curated asymmetric grid, not an Instagram-style
  * uniform feed. One large anchor, medium and small supporting tiles.
- * Capped at 3 hair images (of the 6 originally available) per the
- * repetition rule established in the image strategy.
+ *
+ * Correction pass note: this list deliberately avoids reusing any image
+ * already shown in the Services section (nails-process, hair-02, and
+ * bridal-cropped all live there) — the original version repeated all
+ * three on the same page, which read as unintentional rather than
+ * curated. hair-01 now anchors the grid instead, and nails-03 /
+ * secondary-station (previously imported but unused) fill out the
+ * variety in their place.
  */
 
 const items = [
-	{ image: nailsProcess, alt: 'A nail service being performed at Monsoon Salon', size: 'large' },
-	{ image: hair01, alt: 'Styled hair at Monsoon Salon', size: 'medium' },
-	{ image: bridal, alt: 'Bridal styling work at Monsoon Salon', size: 'medium' },
+	{ image: hair01, alt: 'Styled hair at Monsoon Salon', size: 'large' },
+	{ image: nails03, alt: 'Nail art detail at Monsoon Salon', size: 'medium' },
+	{ image: secondaryStation, alt: 'The secondary styling station at Monsoon Salon', size: 'medium' },
 	{ image: nails01, alt: 'Nail art detail at Monsoon Salon', size: 'small' },
-	{ image: hair02, alt: 'Hair colour work at Monsoon Salon', size: 'small' },
+	{ image: hair03, alt: 'Styled hair at Monsoon Salon', size: 'small' },
 	{ image: washArea, alt: 'The wash area at Monsoon Salon', size: 'medium' },
 	{ image: nails02, alt: 'Nail art detail at Monsoon Salon', size: 'small' },
-	{ image: hair03, alt: 'Styled hair at Monsoon Salon', size: 'small' },
 ];
 
 const sizeClasses = {
@@ -43,7 +47,7 @@ const fullImages = await Promise.all(
 );
 ---
 
-<section class="bg-cream py-20 sm:py-28">
+<section class="bg-cream pt-14 pb-16 sm:pt-20 sm:pb-24">
 	<Container class="flex flex-col gap-10">
 		<header data-reveal class="flex flex-wrap items-end justify-between gap-4">
 			<div>

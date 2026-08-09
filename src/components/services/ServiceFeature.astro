@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Button from '../ui/Button.astro';
+
+/**
+ * Shared category block for the Services page.
+ *
+ * Two sizes:
+ * - "feature": large, full asymmetric treatment (Hair, Nail — the
+ *   categories with the deepest supporting photography).
+ * - "compact": smaller, honest treatment for categories with thinner
+ *   asset depth (Skin, Makeup) — deliberately not padded out to match
+ *   the feature size, per the "don't force artificial parity" rule
+ *   carried over from the homepage.
+ *
+ * `secondaryImage` is optional — only Hair and Nail currently have a
+ * genuine second supporting photo; Skin and Makeup each have exactly
+ * one confirmed image, so the prop is simply omitted for those.
+ */
+interface Props {
+	eyebrow: string;
+	title: string;
+	description: string;
+	image: ImageMetadata;
+	imageAlt: string;
+	secondaryImage?: ImageMetadata;
+	secondaryImageAlt?: string;
+	reverse?: boolean;
+	size?: 'feature' | 'compact';
+}
+
+const {
+	eyebrow,
+	title,
+	description,
+	image,
+	imageAlt,
+	secondaryImage,
+	secondaryImageAlt,
+	reverse = false,
+	size = 'feature',
+} = Astro.props;
+
+const isCompact = size === 'compact';
+---
+
+<div data-reveal class="grid items-center gap-8 md:grid-cols-5 md:gap-12">
+	<div class={`${reverse ? 'order-2 md:order-1' : 'order-2 md:order-2'} md:col-span-2`}>
+		<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">{eyebrow}</p>
+		<h2 class="mt-3 font-display text-2xl sm:text-3xl">{title}</h2>
+		<p class="mt-3 max-w-sm font-body text-base text-iron/80">{description}</p>
+		<Button variant="text" href="/contact" class="mt-6">Enquire about {eyebrow} →</Button>
+	</div>
+
+	<div
+		class={`${reverse ? 'order-1 md:order-2' : 'order-1 md:order-1'} md:col-span-3 ${secondaryImage ? 'grid grid-cols-3 gap-3 sm:gap-4' : ''}`}
+	>
+		<Image
+			src={image}
+			alt={imageAlt}
+			width={image.width}
+			height={image.height}
+			class={`w-full object-cover ${secondaryImage ? 'col-span-2 aspect-4/5' : 'aspect-4/5'} ${isCompact ? 'md:aspect-3/4' : 'md:aspect-3/4'}`}
+		/>
+		{
+			secondaryImage && (
+				<Image
+					src={secondaryImage}
+					alt={secondaryImageAlt}
+					width={secondaryImage.width}
+					height={secondaryImage.height}
+					class="col-span-1 aspect-square w-full self-end object-cover"
+				/>
+			)
+		}
+	</div>
+</div>

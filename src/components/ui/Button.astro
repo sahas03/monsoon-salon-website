@@ -41,12 +41,34 @@ const variants = {
 	text: 'text-iron text-sm border-b border-transparent hover:border-iron pb-0.5',
 };
 
-const pendingStyles = 'opacity-50 cursor-not-allowed pointer-events-none';
+/**
+ * Pending state: a CTA whose destination depends on business data that
+ * isn't confirmed yet (business.ts field is null). This must read as
+ * "intentionally awaiting confirmation," not as a broken/disabled button —
+ * so it gets its own distinct outline treatment rather than a washed-out
+ * version of the working button, and keeps normal cursor/hover affordance
+ * (no pointer-events-none, which would also silently suppress the native
+ * title-attribute tooltip on hover).
+ */
+/*
+ * Note the `!` (important) modifiers on background/text/border here:
+ * callers sometimes pass a color override via `class` (e.g. Hero/FinalCTA
+ * styling the WhatsApp button with `bg-iron` to distinguish it from Call).
+ * That override must only apply once a real destination exists — when
+ * pending, this variant needs to win regardless of Tailwind's internal
+ * class-generation order, which isn't something to rely on for a visual
+ * guarantee like "pending never renders as a solid-colored button."
+ */
+const pendingVariants = {
+	primary:
+		'rounded-sm border border-iron/25 !bg-transparent px-6 py-3 !text-iron/60 text-sm tracking-wide',
+	text: '!text-iron/45 text-sm border-b border-transparent',
+};
 
 const classes = [
 	base,
-	variants[variant],
-	isPending ? pendingStyles : '',
+	isPending ? pendingVariants[variant] : variants[variant],
+	isPending ? 'cursor-default' : '',
 	className,
 ]
 	.filter(Boolean)
@@ -55,8 +77,11 @@ const classes = [
 
 {
 	isPending ? (
-		<span class={classes} aria-disabled="true" title="Pending confirmation from the salon">
+		<span class={classes} aria-disabled="true" title="Contact details pending confirmation from the salon">
 			<slot />
+			{variant === 'primary' && (
+				<span class="text-[10px] font-normal tracking-normal normal-case opacity-70">(pending)</span>
+			)}
 		</span>
 	) : (
 		<a

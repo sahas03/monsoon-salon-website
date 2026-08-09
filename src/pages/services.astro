@@ -1,16 +1,95 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import Button from '../components/ui/Button.astro';
+import ServiceFeature from '../components/services/ServiceFeature.astro';
+import { business } from '../data/business.ts';
+
+import hairMain from '../assets/hair/hair-03.webp';
+import hairSecondary from '../assets/interior/kerastase-wall.webp';
+import nailsMain from '../assets/nails/nails-process.webp';
+import nailsSecondary from '../assets/interior/pedicure-chairs.webp';
+import skinMain from '../assets/skin/treatment-room.webp';
+import makeupMain from '../assets/bridal/bridal-cropped.png';
+
+const description =
+	'An overview of what Monsoon Salon offers in Kokapet, Hyderabad — hair, skin, makeup, and nail services.';
 ---
 
-<BaseLayout title="Services">
-	<section class="flex min-h-[60vh] items-center justify-center px-6 text-center">
-		<div>
-			<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">Coming in a later stage</p>
-			<h1 class="mt-4 font-display text-3xl text-iron">Services</h1>
-			<p class="mx-auto mt-4 max-w-md font-body text-sm text-iron/70">
-				This page is scaffolded so navigation resolves correctly during the design-system build.
-				Content is built in a later stage, once confirmed with the salon.
+<BaseLayout title="Services" description={description}>
+	<!-- Intro -->
+	<section class="pt-14 pb-4 sm:pt-20">
+		<Container size="narrow" class="text-center" data-reveal>
+			<p class="font-body text-xs tracking-[0.2em] text-iron/50 uppercase">What we offer</p>
+			<h1 class="mt-3 font-display text-3xl sm:text-4xl">Hair, Skin, Makeup &amp; Nail</h1>
+			<p class="mx-auto mt-4 max-w-md font-body text-base text-iron/70">
+				An overview of what we do at {business.name}, from cut and colour to nails, skin, and
+				makeup. We don't list pricing here — get in touch directly for availability and rates.
 			</p>
-		</div>
+		</Container>
+	</section>
+
+	<!-- Category features -->
+	<section class="py-14 sm:py-20">
+		<Container class="flex flex-col gap-16 sm:gap-20">
+			<ServiceFeature
+				eyebrow="Hair"
+				title="Hair"
+				description="Cutting, styling, and colour — including balayage and global colour, plus Kérastase-backed hair spa and scalp treatments."
+				image={hairMain}
+				imageAlt="Styled hair colour work at Monsoon Salon"
+				secondaryImage={hairSecondary}
+				secondaryImageAlt="The Kérastase treatment wall at Monsoon Salon"
+			/>
+
+			<ServiceFeature
+				eyebrow="Nail"
+				title="Nail"
+				description="Manicure, pedicure, gel, and nail art — from clean everyday looks to detailed handwork."
+				image={nailsMain}
+				imageAlt="A nail service being performed at Monsoon Salon"
+				secondaryImage={nailsSecondary}
+				secondaryImageAlt="The pedicure seating area at Monsoon Salon"
+				reverse
+			/>
+
+			<ServiceFeature
+				eyebrow="Skin"
+				title="Skin"
+				description="Facials and skin treatments, including Hydrafacial."
+				image={skinMain}
+				imageAlt="A skin treatment room at Monsoon Salon"
+				size="compact"
+			/>
+
+			<ServiceFeature
+				eyebrow="Makeup"
+				title="Makeup"
+				description="Bridal and special-occasion makeup."
+				image={makeupMain}
+				imageAlt="Bridal styling work at Monsoon Salon"
+				size="compact"
+				reverse
+			/>
+		</Container>
+	</section>
+
+	<!-- Compact closing contact strip -->
+	<section class="border-t border-iron/10 bg-cream-deep py-14 sm:py-16">
+		<Container size="narrow" class="flex flex-col items-center gap-5 text-center" data-reveal>
+			<p class="font-display text-xl sm:text-2xl">Have a question about any of these?</p>
+			<div class="flex flex-col gap-3 sm:flex-row">
+				<Button variant="primary" href={business.phone ? `tel:${business.phone}` : null}>Call</Button>
+				<Button
+					variant="primary"
+					class="bg-iron hover:bg-iron/90"
+					href={business.whatsapp ? `https://wa.me/${business.whatsapp}` : null}
+					external
+				>
+					WhatsApp
+				</Button>
+			</div>
+			<Button variant="text" href="/contact">Or see full contact details →</Button>
+		</Container>
 	</section>
 </BaseLayout>

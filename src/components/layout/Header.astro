@@ -35,9 +35,13 @@ const currentPath = Astro.url.pathname;
 	<Container class="flex items-center justify-between py-4">
 		<a
 			href="/"
-			class="flex h-11 w-11 shrink-0 items-center justify-center rounded-sm bg-cream p-1.5 shadow-sm"
+			class="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-iron/10 bg-cream p-2"
 			aria-label={`${business.name} — home`}
 		>
+			{/* Current logo asset is a raster JPEG with a black background —
+			    swap this for a transparent PNG/SVG the moment the salon
+			    supplies one; the chip treatment below can likely be
+			    simplified or removed entirely once that's available. */}
 			<Image src={logo} alt={business.name} width={140} height={140} class="h-full w-full object-contain" />
 		</a>
 
