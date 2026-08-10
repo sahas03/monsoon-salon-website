@@ -1,0 +1,40 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * A single gallery photo: renders the optimized thumbnail and wires it up
+ * as a lightbox trigger. Pairs with the single page-level lightbox overlay
+ * in gallery.astro (src/scripts/lightbox.js queries all
+ * [data-lightbox-trigger] elements against one [data-lightbox] overlay,
+ * so any number of these can share it).
+ */
+interface Props {
+	image: ImageMetadata;
+	alt: string;
+	class?: string;
+	imgClass?: string;
+}
+
+const { image, alt, class: className = '', imgClass = '' } = Astro.props;
+
+// Full-size source for the lightbox, capped at native width — never upscaled.
+const full = await getImage({ src: image, width: image.width });
+---
+
+<button
+	type="button"
+	data-lightbox-trigger
+	data-full-src={full.src}
+	data-full-alt={alt}
+	class={`group relative block overflow-hidden ${className}`}
+	aria-label={`View larger image: ${alt}`}
+>
+	<Image
+		src={image}
+		alt={alt}
+		width={image.width}
+		height={image.height}
+		class={`h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03] ${imgClass}`}
+	/>
+</button>
